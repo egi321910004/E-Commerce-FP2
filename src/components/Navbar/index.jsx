@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Admin() {
+export default function Navbar() {
   return (
     <div>
-      <h1>ADMIN</h1>
+      <h1>testt</h1>
     </div>
   );
 }
