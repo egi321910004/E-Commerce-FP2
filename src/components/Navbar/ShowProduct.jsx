@@ -15,7 +15,7 @@ const ShowProduct = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-around gap-8">
       {products.map((product) => (
         <Card key={product.id} image={product.image} title={product.title} description={product.description} price={product.price} />
       ))}
