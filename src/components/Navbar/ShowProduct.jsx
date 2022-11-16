@@ -2,16 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { GetProduct } from "../../API";
-import { productSelector } from "../../Redux/ProductSlice";
+import { getProducts } from "../../API";
 import Card from "./Card";
 
 const ShowProduct = () => {
   const dispatch = useDispatch();
-  const products = useSelector(productSelector.selectAll);
+  const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(GetProduct());
+    dispatch(getProducts());
   }, [dispatch]);
 
   return (

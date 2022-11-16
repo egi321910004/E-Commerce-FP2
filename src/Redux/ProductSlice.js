@@ -1,19 +1,19 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { GetProduct } from "../API";
+import { createSlice } from "@reduxjs/toolkit";
+import { getProducts } from "../API";
 
-const productEntity = createEntityAdapter({
-  selectID: (product) => product.id,
-});
+const initialState = {
+  products: [],
+  cart: [],
+};
 
-const productSlice = createSlice({
-  name: "product",
-  initialState: productEntity.getInitialState(),
+const productsSlice = createSlice({
+  name: "products",
+  initialState,
   extraReducers: {
-    [GetProduct.fulfilled]: (state, action) => {
-      productEntity.setAll(state, action.payload);
+    [getProducts.fulfilled]: (state, { payload }) => {
+      state.products = payload;
     },
   },
 });
 
-export const productSelector = productEntity.getSelectors((state) => state.product);
-export default productSlice.reducer;
+export default productsSlice.reducer;

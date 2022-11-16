@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function CartTable() {
-  return (
-    <div>CartTable</div>
-  )
+  return <div>CartTable</div>;
 }
