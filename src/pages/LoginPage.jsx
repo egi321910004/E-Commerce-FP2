@@ -45,7 +45,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <div onSubmit={handleLogin} className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
+      <div onSubmit={handleLogin} className=" flex flex-col justify-center min-h-screen overflow-hidden bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
         <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
           <h1 className="text-3xl font-semibold text-center text-gray-700 underline">Sign in</h1>
           <form className="mt-6">

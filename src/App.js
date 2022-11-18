@@ -1,13 +1,15 @@
-import logo from "./logo.svg";
-import "./App.css";
-import LoginPage from "./pages/LoginPage";
-import Navbar from "./components/Navbar/Navbar";
-import HomePage from "./pages/HomePage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Navbar from "./components/Navbar";
+import GlobalRoutes from "./routes/Global";
 
 function App() {
   return (
     <div>
-      <HomePage />
+      <ToastContainer/>
+      <Navbar/>
+      <GlobalRoutes/>
     </div>
   );
 }
