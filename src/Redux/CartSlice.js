@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const initialState = {
     cartProducts: localStorage.getItem("cartProducts") ? JSON.parse(localStorage.getItem("cartProducts")) : [],
-    cartTotalQuantitiy: 0,
+    cartTotalQuantity: 0,
     cartTotalAmount: 0,
 };
 
@@ -29,9 +29,64 @@ const cartSlice = createSlice({
             }
 
             localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts))
+            },
+        removeFromCart(state, action){
+            const nextCartProducts = state.cartProducts.filter(
+                (cartProduct) => cartProduct.id !== action.payload.id
+            ) 
+            state.cartProducts = nextCartProducts;
+            localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts))
+        },
+        decreaseProducts(state, action){
+            const productIndex = state.cartProducts.findIndex(
+                (cartProduct) => cartProduct.id === action.payload.id
+            )
+            if(state.cartProducts[productIndex].cartQuantity > 1){
+                state.cartProducts[productIndex].cartQuantity -= 1
+            } else if (state.cartProducts[productIndex].cartQuantity === 1){
+                const nextCartProducts = state.cartProducts.filter(
+                    (cartProduct) => cartProduct.id !== action.payload.id
+                ) 
+                state.cartProducts = nextCartProducts;
             }
-    }
-})
+            localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts))
+        },
+        increaseProducts(state, action){
+            const productIndex = state.cartProducts.findIndex((product) => product.id === action.payload.id);
 
-export const {addToCart} = cartSlice.actions;
+            if(productIndex >= 0){
+                state.cartProducts[productIndex].cartQuantity += 1 
+                
+            } else {
+                const tempProduct = {...action.payload, cartQuantity: 1};
+                state.cartProducts.push(tempProduct)
+                
+            }
+
+            localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts))
+        },
+        clearCart(state, action){
+            state.cartProducts = [];
+            localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts))
+        },
+        getTotal(state, action){
+        let {total, quantity} = state.cartProducts.reduce((cartTotal, cartProduct) =>{
+            const { price, cartQuantity } = cartProduct;
+            const productTotal = price * cartQuantity
+
+            cartTotal.total += productTotal
+            cartTotal.quantity += cartQuantity
+
+            return cartTotal
+        }, {
+            total: 0,
+            quantity: 0
+        })
+
+        state.cartTotalQuantity = quantity;
+        state.cartTotalAmount = total
+        }
+}})
+
+export const {addToCart, removeFromCart, decreaseProducts, increaseProducts, clearCart, getTotal} = cartSlice.actions;
 export default cartSlice.reducer;
