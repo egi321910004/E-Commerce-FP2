@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import TableRekap from "../components/TableRekap";
 
-const RekapPenjualan = () => {
+const Rekap = () => {
     return (
         <>
             <Navbar />
@@ -12,4 +12,4 @@ const RekapPenjualan = () => {
     );
 };
 
-export default RekapPenjualan;
+export default Rekap;
