@@ -1,9 +1,20 @@
-import React from "react";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
-export default function Admin() {
-  return (
-    <div>
-      <h1>ADMIN</h1>
-    </div>
-  );
-}
+const Admin = () => {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.roles !== "admin") {
+            navigate("/");
+        }
+    });
+    
+    return (
+        <Outlet />
+    );
+};
+
+export default Admin;
