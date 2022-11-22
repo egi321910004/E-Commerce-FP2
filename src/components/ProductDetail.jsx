@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductDetail } from "../API";
 
-import { addToCart } from "../redux/CartSlice";
+import { addToCart } from "../Redux/CartSlice";
 
 export default function ProductDetail() {
   const { id } = useParams();

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { getProducts } from "../API";
-import { addToCart } from "../redux/CartSlice";
+import { addToCart } from "../Redux/CartSlice";
 import Card from "./Card";
 
 const ShowProduct = () => {
