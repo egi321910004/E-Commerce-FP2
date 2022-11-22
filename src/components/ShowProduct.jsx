@@ -9,20 +9,20 @@ import Card from "./Card";
 
 const ShowProduct = () => {
   const dispatch = useDispatch();
-  const {products} = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
-const handleAddToCart = (product) => {
-  dispatch(addToCart(product))
-}
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="flex flex-wrap justify-around gap-8">
       {products.map((product) => (
-        <Card addToCart={() => handleAddToCart(product)} key={product.id} image={product.image} title={product.title} description={product.description} price={product.price} />
+        <Card productDetail={product.id} addToCart={() => handleAddToCart(product)} key={product.id} image={product.image} title={product.title} description={product.description} price={product.price} />
       ))}
     </div>
   );

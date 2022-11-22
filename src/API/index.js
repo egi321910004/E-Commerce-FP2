@@ -6,6 +6,10 @@ export const getProducts = createAsyncThunk("products/getProducts", async () => 
   return response.data;
 });
 
+export const getProductDetail = async (id) => {
+  return axios.get(`https://fakestoreapi.com/products/${id}`);
+};
+
 export const auth = async ({ username, password }) => {
   return axios.post("https://fakestoreapi.com/auth/login", {
     username,
