@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,40 +18,45 @@ export default function LoginPage() {
     }
   }, [navigate]);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    if (email === "admin@jualan.com" && password === "admin123") {
-      const auth = {
-        token: "tokenadmin",
-        roles: "admin",
-      };
-      localStorage.setItem("auth", JSON.stringify(auth));
-      navigate("/admin");
-    } else {
-      auth({ email, password })
-        .then((res) => {
-          const auth = {
-            token: res.data.token,
-            roles: "user",
-          };
-          localStorage.setItem("auth", JSON.stringify(auth));
-          navigate("/");
-        })
-        .catch((err) => {});
-    }
-    setEmail("");
-    setPassword("");
-  };
+  function handleLogin(email, password) {
+    return new Promise(function (resolve, reject) {
+      let token = "";
+      setTimeout(() => {
+        token = "";
+        if (email === "admin@bukapedia.com" && password === "admin123")
+          resolve({ email, role: "admin" });
+        axios
+          .post("https://fakestoreapi.com/auth/login", {
+            username: email,
+            password,
+          })
+          .then((res) => {
+            console.log("LOGIN RESPONSE", res);
+            token = res.data.token;
+            console.log("LOGIN TOKEN", token);
+            resolve({ email, role: "user", token });
+          })
+          .catch((err) => reject("Email/username atau password salah"));
+      }, 1000);
+    });
+  }
 
   return (
     <>
-      <div onSubmit={handleLogin} className=" flex flex-col justify-center min-h-screen overflow-hidden bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
+      <div
+        onSubmit={handleLogin}
+        className=" flex flex-col justify-center min-h-screen overflow-hidden bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+      >
         <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-          <h1 className="text-3xl font-semibold text-center text-gray-700 underline">Sign in</h1>
+          <h1 className="text-3xl font-semibold text-center text-gray-700 underline">
+            Sign in
+          </h1>
           <form className="mt-6">
             <div className="mb-2">
-              <label for="email" className="block text-sm font-semibold text-gray-800">
+              <label
+                for="email"
+                className="block text-sm font-semibold text-gray-800"
+              >
                 Email
               </label>
               {/* EMAIL */}
@@ -62,7 +68,10 @@ export default function LoginPage() {
               />
             </div>
             <div className="mb-2">
-              <label for="password" className="block text-sm font-semibold text-gray-800">
+              <label
+                for="password"
+                className="block text-sm font-semibold text-gray-800"
+              >
                 Password
               </label>
               {/* PASSWORD */}
@@ -78,7 +87,9 @@ export default function LoginPage() {
             </a>
             {/* LOGIN */}
             <div className="mt-6">
-              <button className="w-full px-4 py-2 tracking-wide text-white bg-gradient-to-r from-yellow-200 via-green-200 to-green-300 rounded-md">Login</button>
+              <button className="w-full px-4 py-2 tracking-wide text-white bg-gradient-to-r from-yellow-200 via-green-200 to-green-300 rounded-md">
+                Login
+              </button>
             </div>
           </form>
 
