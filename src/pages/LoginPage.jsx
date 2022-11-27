@@ -1,45 +1,25 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../API";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { authLoginAPI } from "../Redux/authSlice";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const authenticate = localStorage.getItem("auth");
-
-  useEffect(() => {
-    if (authenticate) {
-      authenticate.roles === "user" ? navigate("/") : navigate("/admin");
-    }
-  }, [navigate]);
-
-  function handleLogin(email, password) {
-    return new Promise(function (resolve, reject) {
-      let token = "";
-      setTimeout(() => {
-        token = "";
-        if (email === "admin@bukapedia.com" && password === "admin123")
-          resolve({ email, role: "admin" });
-        axios
-          .post("https://fakestoreapi.com/auth/login", {
-            username: email,
-            password,
-          })
-          .then((res) => {
-            console.log("LOGIN RESPONSE", res);
-            token = res.data.token;
-            console.log("LOGIN TOKEN", token);
-            resolve({ email, role: "user", token });
-          })
-          .catch((err) => reject("Email/username atau password salah"));
-      }, 1000);
-    });
-  }
+  const handleLogin = (event) => {
+    event.preventDefault();
+    dispatch(authLoginAPI({ email, password }));
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <>
